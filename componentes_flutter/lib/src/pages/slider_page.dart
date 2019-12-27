@@ -7,6 +7,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _valorSlider = 100.0;
+  bool _bloquearCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,40 +20,60 @@ class _SliderPageState extends State<SliderPage> {
         child: Column(
           children: <Widget>[
             _crearSlider(),
-            Expanded(
-                child: _crearImagen()
-            ),
+            _checkBox(),
+            _crearSwitch(),
+            Expanded(child: _crearImagen()),
           ],
         ),
       ),
     );
   }
 
-Widget  _crearSlider() {
-
+  Widget _crearSlider() {
     return Slider(
       activeColor: Colors.indigo,
       label: 'Tamaño de la imagen',
       value: _valorSlider,
       min: 10.0,
       max: 400.0,
-      onChanged: (valor){
-
-        setState(() {
-          _valorSlider = valor;
-        });
-
-
-      },
+      onChanged: (_bloquearCheck)
+          ? null
+          : (valor) {
+              setState(() {
+                _valorSlider = valor;
+              });
+            },
     );
-
   }
 
   Widget _crearImagen() {
     return Image(
-      image: NetworkImage('https://p1.hiclipart.com/preview/192/375/696/nba-michael-jordan-png-clipart-thumbnail.jpg'),
+      image: NetworkImage(
+          'https://p1.hiclipart.com/preview/192/375/696/nba-michael-jordan-png-clipart-thumbnail.jpg'),
       width: _valorSlider,
       fit: BoxFit.contain,
     );
   }
+
+  Widget _checkBox() {
+    return CheckboxListTile(
+        title: Text('Bloquear Slider'),
+        value: _bloquearCheck,
+        onChanged: (valor) {
+          setState(() {
+            _bloquearCheck = valor;
+          });
+        });
+  }
+
+ Widget _crearSwitch() {
+   return SwitchListTile(
+       title: Text('Bloquear Slider'),
+       value: _bloquearCheck,
+       onChanged: (valor) {
+         setState(() {
+           _bloquearCheck = valor;
+         });
+       });
+ }
 }
